@@ -5,7 +5,7 @@ const displayElm = document.querySelector(".display");
 const operators = ["%", "/", "*", "-", "+"];
 let lastOperator = "";
 const buttonAction = (value) => {
-    console.log(value);
+    displayElm.classList.remove("prank");
 
     if (value === "AC") {
         strToDisplay = "";
@@ -60,7 +60,11 @@ const buttonAction = (value) => {
 };
 
 allButtonElm.forEach((btn) => {
+    btn.addEventListener("mousedown", () => {
+        btn.style.scale=".9"
+    })
     btn.addEventListener("click", () => {
+        btn.style.scale = "1";
         const value = btn.innerText;
        buttonAction(value);
     })
@@ -72,8 +76,17 @@ const display = (str) => {
 };
 //calculate total 
 const displayTotal = () => {
-const total = eval(strToDisplay);
-strToDisplay = total.toString();
-display(strToDisplay);
+    const extraValue = randomValue();
+    if (extraValue) {
+        displayElm.classList.add("prank");
+    }
+    const total = eval(strToDisplay) + extraValue;
+
+    strToDisplay = total.toString();
+    display(strToDisplay);
 };
 
+const randomValue = () => {
+    const num = Math.round(Math.random() * 10);  
+    return num < 4 ? num : 0;
+}
